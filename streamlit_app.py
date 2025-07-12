@@ -41,15 +41,11 @@ df.dropna(inplace=True)
 
 # Hitung EMA dengan error handling
 try:
-    # Versi 1: Menggunakan EMAIndicator dengan konversi eksplisit
-    df["ema_50"] = EMAIndicator(close=df["Close"], window=50).ema_indicator().values
-    df["ema_100"] = EMAIndicator(close=df["Close"], window=100).ema_indicator().values
-    
-    # Atau Versi 2: Menggunakan pandas rolling langsung (alternatif)
-    # df["ema_50"] = df["Close"].ewm(span=50, adjust=False).mean()
-    # df["ema_100"] = df["Close"].ewm(span=100, adjust=False).mean()
+   df["ema_50"] = df["Close"].ewm(span=50, adjust=False).mean()
+    df["ema_100"] = df["Close"].ewm(span=100, adjust=False).mean()
     
     df.dropna(inplace=True)
+
 except Exception as e:
     st.error(f"Gagal menghitung indikator teknikal: {str(e)}")
     st.stop()
