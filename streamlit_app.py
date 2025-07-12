@@ -19,12 +19,8 @@ else:
     df = yf.download("BTC-USD", start=start_date, end=end_date)
     df.dropna(inplace=True)
 
-    ema_50 = EMAIndicator(close=df["Close"], window=50)
-    df["ema_50"] = ema_50.ema_indicator().squeeze()
-
-    ema_100 = EMAIndicator(close=df["Close"], window=100)
-    df["ema_100"] = ema_100.ema_indicator().squeeze()
-    
+    df["ema_50"] = EMAIndicator(close=df["Close"], window=50).ema_indicator().values.flatten()
+    df["ema_100"] = EMAIndicator(close=df["Close"], window=100).ema_indicator().values.flatten()
     df.dropna(inplace=True)
 
     fitur = df[["ema_50", "ema_100"]]
