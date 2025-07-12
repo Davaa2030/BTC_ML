@@ -4,8 +4,6 @@ import yfinance as yf
 import ta
 import joblib
 import mplfinance as mpf
-from ta.trend import EMAIndicator
-import numpy as np
 
 model = joblib.load("model_rfc_btc.pkl")
 
@@ -20,13 +18,10 @@ else:
     df = yf.download("BTC-USD", start=start_date, end=end_date)
     df.dropna(inplace=True)
 
-    ema_50_raw = EMAIndicator(close=df["Close"], window=50).ema_indicator()
-    df["ema_50"] = pd.Series(ema_50_raw.values.ravel(), index=df.index)
-
-    ema_100_raw = EMAIndicator(close=df["Close"], window=100).ema_indicator()
-    df["ema_100"] = pd.Series(ema_100_raw.values.ravel(), index=df.index)
+    df["ema_50"] = ta.trend.ema_indicator(df["Close"], window=50).ema_indicator()
+    df["ema_100"] = ta.trend.ema_indicator(df["Close"], window=100).ema_indicator()
     df.dropna(inplace=True)
-    
+
     fitur = df[["ema_50", "ema_100"]]
     prediksi = model.predict(fitur)
     df["Prediksi"] = prediksi
@@ -61,7 +56,3 @@ else:
 
     csv = df.to_csv().encode('utf-8')
     st.download_button("⬇️ Download hasil ke CSV", data=csv, file_name='prediksi_btc.csv', mime='text/csv')
-
-
-
-
