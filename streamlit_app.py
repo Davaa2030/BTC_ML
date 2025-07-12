@@ -1,8 +1,10 @@
 import streamlit as st
 import pandas as pd
 import yfinance as yf
+from ta.trend import EMAIndicator
 import joblib
 import mplfinance as mpf
+import numpy as np
 
 # Load model
 try:
@@ -37,10 +39,17 @@ except Exception as e:
 # Bersihkan data
 df.dropna(inplace=True)
 
-# Hitung EMA menggunakan pandas ewm (alternatif lebih stabil)
-df["ema_50"] = df["Close"].ewm(span=50, adjust=False).mean()
-df["ema_100"] = df["Close"].ewm(span=100, adjust=False).mean()
-df.dropna(inplace=True)
+# Hitung EMA dengan error handling
+try:
+    df["ema_50"] = df["Close"].ewm(span=50, adjust=False).mean()
+    df["ema_100"] = df["Close"].ewm(span=100, adjust=False).mean()
+    df.dropna(inplace=True)
+    
+    df.dropna(inplace=True)
+    
+except Exception as e:
+    st.error(f"Gagal menghitung indikator teknikal: {str(e)}")
+    st.stop()
 
 # Prediksi
 try:
