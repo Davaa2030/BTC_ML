@@ -20,11 +20,11 @@ else:
     df = yf.download("BTC-USD", start=start_date, end=end_date)
     df.dropna(inplace=True)
 
-    ema_50 = EMAIndicator(close=df["Close"], window=50).ema_indicator()
-    df["ema_50"] = ema_50.to_numpy().ravel()
+    ema_50_raw = EMAIndicator(close=df["Close"], window=50).ema_indicator()
+    df["ema_50"] = pd.Series(ema_50_raw.values.ravel(), index=df.index)
 
-    ema_100 = EMAIndicator(close=df["Close"], window=100).ema_indicator()
-    df["ema_100"] = ema_100.to_numpy().ravel()
+    ema_100_raw = EMAIndicator(close=df["Close"], window=100).ema_indicator()
+    df["ema_100"] = pd.Series(ema_100_raw.values.ravel(), index=df.index)
     df.dropna(inplace=True)
     
     fitur = df[["ema_50", "ema_100"]]
