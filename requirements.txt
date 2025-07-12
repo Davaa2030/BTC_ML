@@ -1,0 +1,8 @@
+Streamlit
+  joblib
+  yfinance
+  ta
+  mplfinance
+  scikit-learn
+  matplotlib
+  seaborn
