@@ -20,10 +20,10 @@ else:
     df.dropna(inplace=True)
 
     ema_50 = EMAIndicator(close=df["Close"], window=50)
-    df["ema_50"] = ema_50.ema_indicator()
+    df["ema_50"] = ema_50.ema_indicator().squeeze()
 
     ema_100 = EMAIndicator(close=df["Close"], window=100)
-    df["ema_100"] = ema_100.ema_indicator()
+    df["ema_100"] = ema_100.ema_indicator().squeeze()
     
     df.dropna(inplace=True)
 
