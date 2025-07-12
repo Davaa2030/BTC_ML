@@ -4,7 +4,7 @@ import yfinance as yf
 import ta
 import joblib
 import mplfinance as mpf
-from ta.trend import EMAindicator
+from ta.trend import EMAIndicator
 
 model = joblib.load("model_rfc_btc.pkl")
 
