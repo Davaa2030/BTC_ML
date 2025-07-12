@@ -19,10 +19,13 @@ else:
     df = yf.download("BTC-USD", start=start_date, end=end_date)
     df.dropna(inplace=True)
 
-    df["ema_50"] = EMAIndicator(close=df["Close"], window=50).ema_indicator().values.flatten()
-    df["ema_100"] = EMAIndicator(close=df["Close"], window=100).ema_indicator().values.flatten()
-    df.dropna(inplace=True)
+    ema_50 = EMAIndicator(close=df["Close"], window=50).ema_indicator()
+    df["ema_50"] = ema_50.to_numpy().ravel()
 
+    ema_100 = EMAIndicator(close=df["Close"], window=100).ema_indicator()
+    df["ema_100"] = ema_100.to_numpy().ravel()
+    df.dropna(inplace=True)
+    
     fitur = df[["ema_50", "ema_100"]]
     prediksi = model.predict(fitur)
     df["Prediksi"] = prediksi
