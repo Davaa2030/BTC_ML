@@ -23,6 +23,9 @@ else:
     df = yf.download("BTC-USD", start=start_date, end=end_date)
     df.dropna(inplace=True)
 
+data.columns = data.columns.get_level_values(0)
+data = data.astype(float)
+
     df["ema_50"] = ta.trend.ema_indicator(df["Close"], window=50).ema_indicator()
     df["ema_100"] = ta.trend.ema_indicator(df["Close"], window=100).ema_indicator()
     df.dropna(inplace=True)
